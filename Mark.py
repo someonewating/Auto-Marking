@@ -1,10 +1,12 @@
 from pymouse import PyMouse
-import os
-from shutil import copy
-import io
-import sys
+from PIL import ImageGrab
+from aip import AipOcr
 from time import sleep
 from pykeyboard import PyKeyboard
+import shutil
+import os
+import io
+import sys
 
 #path = input('输入源文件夹路径：')
 #path_list = os.listdir(path)
@@ -26,6 +28,41 @@ def program():
    #app_dir = input ('输入未来教育程序位置:')
    app_dir = 'E:\\Tools\\Temp\\未来教育.exe'
    os.startfile(app_dir)
+
+def ocr():
+   a = PyMouse()
+   k = PyKeyboard()
+   k.press_key(k.windows_l_key)
+   sleep(0.5)
+   k.press_key(k.shift_key)
+   sleep(0.5)
+   k.tap_key('s')
+   sleep(0.5)
+   a.press(582, 183,button=1)       #截屏。从成绩信息的左上角开始
+   sleep(0.5)
+   a.release(720, 224,button=1)        #截屏。到成绩信息的右下角结束
+   sleep(0.5)
+   k.release_key(k.windows_l_key)
+   sleep(0.5)
+   k.release_key(k.shift_key)
+   sleep(0.5)
+#至此，利用win10的截图功能完成对分数区域的截图
+   APP_ID = '23595421'
+   API_KEY = 'Gtka59iMG4IIise8hdWiBswG'
+   SECRET_KEY = 'p1MnOAgTj5x1NoSLO2COVoLckQmhyBfW '
+
+   image = ImageGrab.grabclipboard()
+   image.save("images/screen.png")
+ 
+#利用百度API识别截图中的文字
+   client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
+   with open("screen.png", 'rb') as f:
+      image = f.read()
+#调用百度API通用文字识别（高精度版），提取图片中的内容
+   text = client.basicGeneral(image)
+   result = text["words_result"]
+   for i in result:
+      print(i["words"])
 
 def bank1():
    m = PyMouse()
@@ -60,7 +97,7 @@ def bank1():
    #
    #
    #
-   #此处应有获取分数的函数调用
+   ocr()
    #
    #
    #
