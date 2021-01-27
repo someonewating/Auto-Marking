@@ -47,17 +47,19 @@ def ocr():
    k.release_key(k.shift_key)
    sleep(0.5)
 #至此，利用win10的截图功能完成对分数区域的截图
+
    APP_ID = '23595421'
    API_KEY = 'Gtka59iMG4IIise8hdWiBswG'
    SECRET_KEY = 'p1MnOAgTj5x1NoSLO2COVoLckQmhyBfW '
 
    image = ImageGrab.grabclipboard()
    image.save("images/screen.png")
- 
+
 #利用百度API识别截图中的文字
    client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
    with open("screen.png", 'rb') as f:
       image = f.read()
+
 #调用百度API通用文字识别（高精度版），提取图片中的内容
    text = client.basicGeneral(image)
    result = text["words_result"]
