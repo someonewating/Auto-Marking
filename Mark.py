@@ -5,8 +5,14 @@ import io
 import sys
 
 def copy():
-   source = input("Enter source file with full path: ")
-   target = input("Enter target file with full path: ")
-   shutil.copy(source, target)
-
+   path = r'e:\\Homework\\Auto-Book'
+   path_list = os.listdir(path)
+   path_list.remove('.git')    # macos中的文件管理文件，默认隐藏，这里可以忽略
+   path_list.remove('.gitattributes')
+   path_list.sort()
+   #print(path_list)
+   target = r'e:\\Homework\\Auto-Copy\\test'
+   for filename in path_list:
+      print(os.path.join(path,filename))
+      shutil.copy(os.path.join(path, filename), target)
 copy()
