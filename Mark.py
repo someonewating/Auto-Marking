@@ -57,7 +57,7 @@ def ocr():
 
 #利用百度API识别截图中的文字
    client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
-   with open("screen.png", 'rb') as f:
+   with open("images/screen.png", 'rb') as f:
       image = f.read()
 
 #调用百度API通用文字识别（高精度版），提取图片中的内容
