@@ -14,24 +14,25 @@ temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
 
 def copy_temp(path,temp_target):
-   path_list = os.listdir(path)
-   path_list.sort()
-   for filename in path_list:
-      if os.path.exists(temp_target):
-         shutil.rmtree(temp_target)
+   path_list = os.listdir(path)        #path_list:读取path中存在的所有文件或文件夹的名称
+   path_list.sort()        #对path_list进行排序
+   for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
+      if os.path.exists(temp_target):        #如果temp_target存在
+         shutil.rmtree(temp_target)       #删除
       print(os.path.join(path,filename))
       shutil.copytree(os.path.join(path, filename), temp_target)        #复制文件夹到目标文件夹
       print (filename + '复制就位！')
-      sleep(0)
       copy_result(temp_target,target)
       print (filename + '复制到result成功')
+   return filename
 
 def copy_result(temp_target,target): 
    temp_target_list = os.listdir(temp_target)
    temp_target_list.sort()
    for filename in temp_target_list:
       shutil.copy(os.path.join(temp_target, filename), target)
-
+'''以上两个函数是为了防止filename错误的传递导致遍历无法成功进行。第一个filename是对源文件夹中文件夹名称的遍历；第二个
+filename是对临时文件夹中文件（即是将要直接提供给 阅卷程序 批阅的文件）进行遍历。'''
 def program():
    #app_dir = input ('输入未来教育程序位置:')
    app_dir = 'E:\\Tools\\Temp\\未来教育.exe'
@@ -41,7 +42,7 @@ def ocr():
 #使用win10自带的截屏工具对分数区域进行截屏
    m = PyMouse()
    k = PyKeyboard()
-   k.press_key(k.windows_l_key)
+   k.press_key(k.windows_l_key)        #PyMouse库中对左侧Windows键的命名
    sleep(0.5)
    k.press_key(k.shift_key)
    sleep(0.5)
@@ -74,8 +75,9 @@ def ocr():
    result = str(result)
    print (result)
 
+#将结果写入文档
    with open('result.txt','a',encoding='utf-8') as f:
-      f.write(result + '\n')
+      f.write( result + '\n')
 
 def bank1():
    m = PyMouse()
