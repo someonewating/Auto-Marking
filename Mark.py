@@ -7,13 +7,13 @@ import shutil
 import os
 import io
 import sys
-'''
+
 #path = input('输入源文件夹路径：')
 path = r'E:\\KSWJJ\\Answers'
 temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
 
-def copy2temp(path,temp_target):
+def copy_temp(path,temp_target):
    path_list = os.listdir(path)
    path_list.sort()
    for filename in path_list:
@@ -22,16 +22,16 @@ def copy2temp(path,temp_target):
       print(os.path.join(path,filename))
       shutil.copytree(os.path.join(path, filename), temp_target)        #复制文件夹到目标文件夹
       print (filename + '复制就位！')
-      sleep(1)
-      copy2result(temp_target,target)
+      sleep(0)
+      copy_result(temp_target,target)
       print (filename + '复制到result成功')
 
-def copy2result(temp_target,target): 
+def copy_result(temp_target,target): 
    temp_target_list = os.listdir(temp_target)
    temp_target_list.sort()
    for filename in temp_target_list:
       shutil.copy(os.path.join(temp_target, filename), target)
-'''
+
 def program():
    #app_dir = input ('输入未来教育程序位置:')
    app_dir = 'E:\\Tools\\Temp\\未来教育.exe'
@@ -112,7 +112,7 @@ def bank1():
    print ('在“叉号”处点击一次，坐标:'+a)
    sleep(0.5)
 #调用copy函数
-   #copy2temp(path,temp_target)
+   copy_temp(path,temp_target)
 
    m.move(1484, 19)
    sleep(0.5)

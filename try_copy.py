@@ -23,7 +23,7 @@ def copy2temp(path,temp_target):
       print(os.path.join(path,filename))
       shutil.copytree(os.path.join(path, filename), temp_target)        #复制文件夹到目标文件夹
       print (filename + '复制就位！')
-      sleep(5)
+      sleep(0)
       copy2result(temp_target,target)
       print (filename + '复制到result成功')
       
