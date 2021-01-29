@@ -12,10 +12,13 @@ import sys
 path = r'E:\\KSWJJ\\Answers'
 temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
+filename = 0
+filename = str(filename)
 
 def copy_temp(path,temp_target):
    path_list = os.listdir(path)        #path_list:读取path中存在的所有文件或文件夹的名称
    path_list.sort()        #对path_list进行排序
+   global filename
    for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
       program()
       bank1()
@@ -41,7 +44,7 @@ def program():
    app_dir = 'E:\\Tools\\Temp\\未来教育.exe'
    os.startfile(app_dir)
 
-def ocr():
+def ocr(filename):
 #使用win10自带的截屏工具对分数区域进行截屏
    m = PyMouse()
    k = PyKeyboard()
@@ -79,8 +82,8 @@ def ocr():
    print (result)
 
 #将结果写入文档
-   with open('result.txt','a',encoding='utf-8') as f:
-      f.write(result + '\n')
+   with open('result.xlsx','a',encoding='utf-8') as f:
+      f.write(filename +' ' + result + '\n')
 
 def bank1():
    m = PyMouse()
@@ -149,7 +152,7 @@ def bank_general():        #
    k.tap_key('y')
 
 #对分数区域识别并返回结果
-   ocr()
+   ocr(filename)
    m.move(1146, 119)
    sleep(1)
    m.click(1146, 119)
