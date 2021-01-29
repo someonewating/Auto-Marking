@@ -17,6 +17,8 @@ def copy_temp(path,temp_target):
    path_list = os.listdir(path)        #path_list:读取path中存在的所有文件或文件夹的名称
    path_list.sort()        #对path_list进行排序
    for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
+      program()
+      bank1()
       if os.path.exists(temp_target):        #如果temp_target存在
          shutil.rmtree(temp_target)       #删除
       print(os.path.join(path,filename))
@@ -24,6 +26,7 @@ def copy_temp(path,temp_target):
       print (filename + '复制就位！')
       copy_result(temp_target,target)
       print (filename + '复制到result成功')
+      bank_general()
    return filename
 
 def copy_result(temp_target,target): 
@@ -77,11 +80,10 @@ def ocr():
 
 #将结果写入文档
    with open('result.txt','a',encoding='utf-8') as f:
-      f.write( result + '\n')
+      f.write(result + '\n')
 
 def bank1():
    m = PyMouse()
-   k = PyKeyboard()
    m.move(478, 197)        #鼠标移动到 考试题库 的位置
    sleep(3)       #等待3秒，等待 未来教育 程序启动
    m.click(478, 197)       #在 考试题库 处左键单击
@@ -113,9 +115,10 @@ def bank1():
    a = str(a)
    print ('在“叉号”处点击一次，坐标:'+a)
    sleep(0.5)
-#调用copy函数
-   copy_temp(path,temp_target)
 
+def bank_general():        #
+   m = PyMouse()
+   k = PyKeyboard()
    m.move(1484, 19)
    sleep(0.5)
    m.click(1484, 19)
@@ -132,7 +135,7 @@ def bank1():
    sleep(0.5)
    k.tap_key(k.enter_key)
 
-#可能出现1-3个确认窗口
+#可能出现1-4个确认窗口
    #第一个
    sleep(0.5)
    k.tap_key('y')
@@ -140,6 +143,8 @@ def bank1():
    sleep(0.5)
    k.tap_key('y')
    #第三个
+   sleep(0.5)
+   k.tap_key('y')
    sleep(0.5)
    k.tap_key('y')
 
@@ -160,7 +165,6 @@ def bank1():
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
 def mark():
-   program()
-   bank1()
+   copy_temp(path,temp_target)
 
 mark()
