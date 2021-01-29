@@ -78,12 +78,13 @@ def ocr(filename):
 #调用百度API通用文字识别(标准版),识别分数
    text = client.basicGeneral(image)
    result = text["words_result"]
-   result = str(result)
-   print (result)
+   for i in result:
+      temp = i["words"]
+   print (temp)
 
 #将结果写入文档
-   with open('result.xlsx','a',encoding='utf-8') as f:
-      f.write(filename +' ' + result + '\n')
+   with open('result.txt','a',encoding='utf-8') as f:
+      f.write(filename +',' + temp + '\n')
 
 def bank1():
    m = PyMouse()
