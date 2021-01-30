@@ -120,7 +120,7 @@ def bank1():
    print ('在“叉号”处点击一次，坐标:'+a)
    sleep(0.5)
 
-def bank_general():        #
+def bank_general():        
    m = PyMouse()
    k = PyKeyboard()
    m.move(1484, 19)

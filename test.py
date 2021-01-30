@@ -1,10 +1,13 @@
-from openpyxl import load_workbook
+from pymouse import PyMouse
 
-wb = load_workbook(r'test.xlsx')
-ws = wb.active
-
-row_i = 0
-for x in range(0,10):
-    row_i = row_i + 1
-    ws['A%d' % row_i] =  row_i
-wb.save('test.xlsx')
+m = PyMouse()
+print('点击回车查看当前鼠标的坐标')
+d = {}
+while True:
+    for i in range(0,5):
+        _ = input()         # input起到阻塞程序的作用
+        print(m.position())  # 获取当前鼠标指针的坐标
+        a = m.position()
+        d[i] = a
+        print (i)
+    print (d)
