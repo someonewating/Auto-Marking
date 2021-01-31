@@ -14,6 +14,9 @@ temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
 filename = 0
 filename = str(filename)
+d = {}
+x1 = None
+y1 = None
 
 def copy_temp(path,temp_target):
    path_list = os.listdir(path)        #path_list:读取path中存在的所有文件或文件夹的名称
@@ -21,6 +24,7 @@ def copy_temp(path,temp_target):
    global filename
    for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
       program()
+      user_position()
       bank1()
       if os.path.exists(temp_target):        #如果temp_target存在
          shutil.rmtree(temp_target)       #删除
@@ -88,9 +92,9 @@ def ocr(filename):
 
 def bank1():
    m = PyMouse()
-   m.move(478, 197)        #鼠标移动到 考试题库 的位置
+   m.move(x1, y1)        #鼠标移动到 考试题库 的位置
    sleep(3)       #等待3秒，等待 未来教育 程序启动
-   m.click(478, 197)       #在 考试题库 处左键单击
+   m.click(x1, y1)       #在 考试题库 处左键单击
    a = m.position()
    a = str(a)
    print ('在“考试题库”处单击一次，坐标:'+a)
@@ -169,6 +173,29 @@ def bank_general():
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
 def mark():
+   program()
+   #user_position()
    copy_temp(path,temp_target)
+
+def user_position():
+   m = PyMouse()
+   print('点击回车以确认当前鼠标的所在位置的坐标')
+   for i in range(0,1):       #需要6次
+      i = str(i)
+      _ = input()         # input起到阻塞程序的作用
+      a = m.position()
+      a = str(a)
+      d[i] = a
+      print ('第' + i + '次时在' + a + '处确认了一个坐标')
+   x1 = input('输入“考试题库”的x坐标')
+   y1 = input('输入“考试题库”的y坐标')
+   x1 = int(x1)
+   y1 = int(y1)
+   print (x1, y1)
+   return x1,y1
+'''
+   d = str(d)
+   print ('存储在字典中的信息:' + d)
+'''
 
 mark()
