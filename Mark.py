@@ -7,6 +7,7 @@ import shutil
 import os
 import io
 import sys
+import json
 
 #path = input('输入源文件夹路径：')
 path = r'E:\\KSWJJ\\Answers'
@@ -14,17 +15,14 @@ temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
 filename = 0
 filename = str(filename)
-d = {}
-x1 = None
-y1 = None
+x1,x2,x3,x4,x5,x6,x7,x8,x9 = 0,0,0,0,0,0,0,0,0
+y1,y2,y3,y4,y5,y6,y7,y8,y9 = 0,0,0,0,0,0,0,0,0
 
 def copy_temp(path,temp_target):
    path_list = os.listdir(path)        #path_list:读取path中存在的所有文件或文件夹的名称
    path_list.sort()        #对path_list进行排序
    global filename
    for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
-      program()
-      user_position()
       bank1()
       if os.path.exists(temp_target):        #如果temp_target存在
          shutil.rmtree(temp_target)       #删除
@@ -98,27 +96,27 @@ def bank1():
    a = m.position()
    a = str(a)
    print ('在“考试题库”处单击一次，坐标:'+a)
-   m.move(630, 310)        #鼠标移动到 真考题库试卷1 的位置
+   m.move(x2, y2)        #鼠标移动到 真考题库试卷1 的位置
    sleep(0.5)
-   m.click(630, 310)       #在 真考题库试卷1 处左键单击
+   m.click(x2, y2)       #在 真考题库试卷1 处左键单击
    a = m.position()
    a = str(a)
    print ('在“真考题库试卷1”处单击一次，坐标:'+a)
-   m.move(163, 120)
+   m.move(x3, y3)
    sleep(2)
-   m.click(163, 120)
+   m.click(x3, y3)
    a = m.position()
    a = str(a)
    print ('在“字处理”处单击一次，坐标:'+a)
-   m.move(1466, 146)
+   m.move(x4, y4)
    sleep(1)
-   m.click(1466, 146)
+   m.click(x4, y4)
    a = m.position()
    a = str(a)
    print ('在“考生文件夹”处单击一次，坐标:'+a)
-   m.move(1512, 10)
+   m.move(x5, y5)
    sleep(1)
-   m.click(1512, 10)
+   m.click(x5, y5)
    a = m.position()
    a = str(a)
    print ('在“叉号”处点击一次，坐标:'+a)
@@ -127,15 +125,15 @@ def bank1():
 def bank_general():        
    m = PyMouse()
    k = PyKeyboard()
-   m.move(1484, 19)
+   m.move(x6, y6)
    sleep(0.5)
-   m.click(1484, 19)
+   m.click(x6, y6)
    a = m.position()
    a = str(a)
    print ('在“交卷”处单击一次，坐标:'+a)
-   m.move(693, 670)
+   m.move(x7, y7)
    sleep(0.5)
-   m.click(693, 670)
+   m.click(x7, y7)
    a = m.position()
    a = str(a)
    print ('在“确定”处单击一次，坐标:'+a)
@@ -158,44 +156,95 @@ def bank_general():
 
 #对分数区域识别并返回结果
    ocr(filename)
-   m.move(1146, 119)
+   m.move(x8, y8)
    sleep(1)
-   m.click(1146, 119)
+   m.click(x8, y8)
    a = m.position()
    a = str(a)
    print ('在‘叉号’处单击一次，坐标:'+a)
 
-   m.move(1198, 125)
+   m.move(x9, y9)
    sleep(2)
-   m.click(1198, 125)
+   m.click(x9, y9)
    a = m.position()
    a = str(a)
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
 def mark():
-   program()
    #user_position()
+   judg_status()
    copy_temp(path,temp_target)
 
 def user_position():
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+   d = {}
    m = PyMouse()
    print('点击回车以确认当前鼠标的所在位置的坐标')
-   for i in range(0,1):       #需要6次
+   for i in range(1,8):       #需要7次
       i = str(i)
       _ = input()         # input起到阻塞程序的作用
       a = m.position()
       a = str(a)
-      d[i] = a
       print ('第' + i + '次时在' + a + '处确认了一个坐标')
-   x1 = input('输入“考试题库”的x坐标')
-   y1 = input('输入“考试题库”的y坐标')
-   x1 = int(x1)
-   y1 = int(y1)
-   print (x1, y1)
-   return x1,y1
-'''
-   d = str(d)
-   print ('存储在字典中的信息:' + d)
-'''
+      with open('位置信息.txt','a',encoding='utf-8') as f:
+         f.write('第' + i + '次时在' + a + '处确认了一个坐标' + '\n')
+   print('依照‘位置信息.txt’内存储的数据依次输入数据。' +'\n')
+   os.system('pause')
+   x1 = input('输入“考试题库”的x坐标:')
+   y1 = input('输入“考试题库”的y坐标:')
+   x2 = input('输入“真考题库试卷X”的x坐标:')
+   y2 = input('输入“真考题库试卷X”的y坐标:')
+   x3 = input('输入“字处理”的x坐标:')
+   y3 = input('输入“字处理”的y坐标:')
+   x4 = input('输入“考生文件夹”的x坐标:')
+   y4 = input('输入“考生文件夹”的y坐标:')
+   x5 = input('输入“考生文件夹”窗口左上角关闭按钮的x坐标:')
+   y5 = input('输入“考生文件夹”窗口左上角关闭按钮的y坐标:')
+   x6 = input('输入“交卷”的x坐标:')
+   y6 = input('输入“交卷”的y坐标:')
+   x7 = input('输入“确定”的x坐标:')
+   y7 = input('输入“确定”的y坐标:')
+   x8 = input('输入“关闭”按钮的x坐标:')
+   y8 = input('输入“关闭”按钮的y坐标:')
+   x9 = input('输入新的窗口中“关闭”按钮的x坐标:')
+   y9 = input('输入新的窗口中“关闭”按钮的y坐标:')
+   print ('坐标信息捕获:' + x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9)
+   d = {x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9}
+   with open ('位置信息.json','w+') as f_file:
+      json.dump(d,f_file)
+   return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+
+def judg_status():
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+   print('是否为第一次运行？‘位置信息.txt’内的位置信息是否正确？' + '\n')
+   print('1.一切正确' + '\n')
+   print('2.仍需检查' + '\n')
+   print('请选择(输入‘1’或‘2’)：')
+   t = input()
+   t = int(t)
+   if t == 1:
+      x1 = input('输入“考试题库”的x坐标:')
+      y1 = input('输入“考试题库”的y坐标:')
+      x2 = input('输入“真考题库试卷X”的x坐标:')
+      y2 = input('输入“真考题库试卷X”的y坐标:')
+      x3 = input('输入“字处理”的x坐标:')
+      y3 = input('输入“字处理”的y坐标:')
+      x4 = input('输入“考生文件夹”的x坐标:')
+      y4 = input('输入“考生文件夹”的y坐标:')
+      x5 = input('输入“考生文件夹”窗口左上角关闭按钮的x坐标:')
+      y5 = input('输入“考生文件夹”窗口左上角关闭按钮的y坐标:')
+      x6 = input('输入“交卷”的x坐标:')
+      y6 = input('输入“交卷”的y坐标:')
+      x7 = input('输入“确定”的x坐标:')
+      y7 = input('输入“确定”的y坐标:')
+      x8 = input('输入“关闭”按钮的x坐标:')
+      y8 = input('输入“关闭”按钮的y坐标:')
+      x9 = input('输入新的窗口中“关闭”按钮的x坐标:')
+      y9 = input('输入新的窗口中“关闭”按钮的y坐标:')
+      return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+      program()
+   elif t == 2:
+      program()
+      user_position()
 
 mark()
