@@ -15,8 +15,8 @@ temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
 filename = 0
 filename = str(filename)
-x1,x2,x3,x4,x5,x6,x7,x8,x9 = 0,0,0,0,0,0,0,0,0
-y1,y2,y3,y4,y5,y6,y7,y8,y9 = 0,0,0,0,0,0,0,0,0
+x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11 = 0,0,0,0,0,0,0,0,0,0,0
+y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11 = 0,0,0,0,0,0,0,0,0,0,0
 d = {}
 
 def mark():
@@ -57,15 +57,15 @@ def ocr(filename):
 #使用win10自带的截屏工具对分数区域进行截屏
    m = PyMouse()
    k = PyKeyboard()
-   k.press_key(k.windows_l_key)        #PyMouse库中对左侧Windows键的命名
+   k.press_key(k.control_l_key)        #PyMouse库中对左侧Windows键的命名
    sleep(0.5)
-   k.press_key(k.shift_key)
+   k.press_key(k.alt_l_key)
    sleep(0.5)
-   k.tap_key('s')
+   k.tap_key('a')
    sleep(0.5)
-   m.press(582, 183,button=1)       #截屏。从成绩信息的左上角开始
+   m.press(x10, y10,button=1)       #截屏。从成绩信息的左上角开始
    sleep(0.5)
-   m.release(720, 224,button=1)        #截屏。到成绩信息的右下角结束
+   m.release(x11, y11,button=1)        #截屏。到成绩信息的右下角结束
    sleep(0.5)
    k.release_key(k.windows_l_key)
    sleep(0.5)
@@ -177,8 +177,8 @@ def bank_general():
    a = str(a)
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
-def user_position():
-   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+def user_position1():
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11
    m = PyMouse()
    print('点击回车以确认当前鼠标的所在位置的坐标')
    for i in range(1,8):       #需要7次
@@ -205,18 +205,24 @@ def user_position():
    y6 = input('输入“交卷”的y坐标:')
    x7 = input('输入“确定”的x坐标:')
    y7 = input('输入“确定”的y坐标:')
+   x10 = input('输入截屏左上角的x坐标:')
+   y10 = input('输入截屏左上角的y坐标:')
+   x11 = input('输入截屏右下角的x坐标:')
+   y11 = input('输入截屏右下角的y坐标:')
    x8 = input('输入“关闭”按钮的x坐标:')
    y8 = input('输入“关闭”按钮的y坐标:')
    x9 = input('输入新的窗口中“关闭”按钮的x坐标:')
    y9 = input('输入新的窗口中“关闭”按钮的y坐标:')
    print ('坐标信息捕获成功' )
-   d = {'x1' : x1,'y1' : y1,'x2' : x2,'y2' : y2,'x3' : x3,'y3' : y3,'x4' : x4 ,'y4' : y4,'x5' : x5,'y5' : y5,'x6' : x6,'y6' : y6,'x7' : x7,'y7' : y7,'x8' : x8,'y8' : y8,'x9' : x9,'y9' : y9}
+   d = {'x1' : x1,'y1' : y1,'x2' : x2,'y2' : y2,'x3' : x3,'y3' : y3,'x4' : x4 ,'y4' : y4,
+   'x5' : x5,'y5' : y5,'x6' : x6,'y6' : y6,'x7' : x7,'y7' : y7,'x8' : x8,'y8' : y8,
+   'x9' : x9,'y9' : y9,'x10' : x10,'y10' : y10,'x11' : x11,'y11' : y11}
    with open ('position.json','w+') as f_file:
       json.dump(d,f_file)
    str2int()
-   return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,d
+   return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11,d
 def judg_status():
-   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,d
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11,d
    print('是否为第一次运行？‘位置信息.txt’内的位置信息是否正确？' + '\n')
    print('1.一切正确' + '\n')
    print('2.仍需检查' + '\n')
@@ -252,13 +258,19 @@ def judg_status():
 
       x9 = d['x9']
       y9 = d['y9']
+      x10 = d['x10']
+      y10 = d['y10']
+
+      x11 = d['x11']
+      y11 = d['y11']
       str2int()
-      return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+      return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11
    elif t == 2:
-      user_position()
+      program()
+      user_position1()
 
 def str2int():
-   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11
    x1 = int(x1)
    y1 = int(y1)
    x2 = int(x2)
@@ -281,5 +293,10 @@ def str2int():
 
    x9 = int(x9)
    y9 = int(y9)
+   x10 = int(x10)
+   y10 = int(y10)
+
+   x11 = int(x11)
+   y11 = int(y11)
 
 mark()
