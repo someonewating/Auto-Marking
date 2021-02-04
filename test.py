@@ -1,21 +1,18 @@
-from pymouse import PyMouse
+import json
 import os
 
-m = PyMouse()
-print('点击回车查看当前鼠标的坐标')
-d = {}
-#while True:
-for i in range(0,2):
-    i = str(i)
-    _ = input()         # input起到阻塞程序的作用
-    #print(m.position())  # 获取当前鼠标指针的坐标
-    a = m.position()
-    a = str(a)
-    d[i] = a
-    print ('第' + i + '次时在' + a + '处确认了一个坐标')
-    os.system('pause')
+x1 = input('输入“考试题库”的x坐标:')
+y1 = input('输入“考试题库”的y坐标:')
+d = {'x1':x1,'y1':y1}
 d = str(d)
-print ('存储在字典中的信息:' + d)
-d = eval(d)
-b1 = d['0']
-print (b1)
+print (d)
+#os.system('pause')
+
+with open ('position.json','w+') as f_file:
+    json.dump(d,f_file)
+print ('success')
+
+with open ('position.json','r',encoding='utf-8') as f_file:
+    json.load(f_file)
+x1 = d['x1']
+print (x1)

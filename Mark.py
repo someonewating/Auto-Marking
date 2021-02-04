@@ -17,12 +17,19 @@ filename = 0
 filename = str(filename)
 x1,x2,x3,x4,x5,x6,x7,x8,x9 = 0,0,0,0,0,0,0,0,0
 y1,y2,y3,y4,y5,y6,y7,y8,y9 = 0,0,0,0,0,0,0,0,0
+d = {}
+
+def mark():
+   #user_position()
+   judg_status()
+   copy_temp(path,temp_target)
 
 def copy_temp(path,temp_target):
    path_list = os.listdir(path)        #path_list:读取path中存在的所有文件或文件夹的名称
    path_list.sort()        #对path_list进行排序
    global filename
    for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
+      program()
       bank1()
       if os.path.exists(temp_target):        #如果temp_target存在
          shutil.rmtree(temp_target)       #删除
@@ -170,14 +177,8 @@ def bank_general():
    a = str(a)
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
-def mark():
-   #user_position()
-   judg_status()
-   copy_temp(path,temp_target)
-
 def user_position():
    global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
-   d = {}
    m = PyMouse()
    print('点击回车以确认当前鼠标的所在位置的坐标')
    for i in range(1,8):       #需要7次
@@ -208,14 +209,14 @@ def user_position():
    y8 = input('输入“关闭”按钮的y坐标:')
    x9 = input('输入新的窗口中“关闭”按钮的x坐标:')
    y9 = input('输入新的窗口中“关闭”按钮的y坐标:')
-   print ('坐标信息捕获:' + x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9)
-   d = {x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9}
-   with open ('位置信息.json','w+') as f_file:
+   print ('坐标信息捕获成功' )
+   d = {'x1' : x1,'y1' : y1,'x2' : x2,'y2' : y2,'x3' : x3,'y3' : y3,'x4' : x4 ,'y4' : y4,'x5' : x5,'y5' : y5,'x6' : x6,'y6' : y6,'x7' : x7,'y7' : y7,'x8' : x8,'y8' : y8,'x9' : x9,'y9' : y9}
+   with open ('position.json','w+') as f_file:
       json.dump(d,f_file)
-   return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
-
+   str2int()
+   return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,d
 def judg_status():
-   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,d
    print('是否为第一次运行？‘位置信息.txt’内的位置信息是否正确？' + '\n')
    print('1.一切正确' + '\n')
    print('2.仍需检查' + '\n')
@@ -223,28 +224,62 @@ def judg_status():
    t = input()
    t = int(t)
    if t == 1:
-      x1 = input('输入“考试题库”的x坐标:')
-      y1 = input('输入“考试题库”的y坐标:')
-      x2 = input('输入“真考题库试卷X”的x坐标:')
-      y2 = input('输入“真考题库试卷X”的y坐标:')
-      x3 = input('输入“字处理”的x坐标:')
-      y3 = input('输入“字处理”的y坐标:')
-      x4 = input('输入“考生文件夹”的x坐标:')
-      y4 = input('输入“考生文件夹”的y坐标:')
-      x5 = input('输入“考生文件夹”窗口左上角关闭按钮的x坐标:')
-      y5 = input('输入“考生文件夹”窗口左上角关闭按钮的y坐标:')
-      x6 = input('输入“交卷”的x坐标:')
-      y6 = input('输入“交卷”的y坐标:')
-      x7 = input('输入“确定”的x坐标:')
-      y7 = input('输入“确定”的y坐标:')
-      x8 = input('输入“关闭”按钮的x坐标:')
-      y8 = input('输入“关闭”按钮的y坐标:')
-      x9 = input('输入新的窗口中“关闭”按钮的x坐标:')
-      y9 = input('输入新的窗口中“关闭”按钮的y坐标:')
+      with open ('position.json','r') as f_file:
+         d = json.load(f_file)
+      d = str(d)
+      print (d)
+      d = eval(d)
+      os.system('pause')
+      x1 = d['x1']
+      y1 = d['y1']
+      x2 = d['x2']
+      y2 = d['y2']
+
+      x3 = d['x3']
+      y3 = d['y3']
+      x4 = d['x4']
+      y4 = d['y4']
+
+      x5 = d['x5']
+      y5 = d['y5']
+      x6 = d['x6']
+      y6 = d['y6']
+
+      x7 = d['x7']
+      y7 = d['y7']
+      x8 = d['x8']
+      y8 = d['y8']
+
+      x9 = d['x9']
+      y9 = d['y9']
+      str2int()
       return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
-      program()
    elif t == 2:
-      program()
       user_position()
+
+def str2int():
+   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9
+   x1 = int(x1)
+   y1 = int(y1)
+   x2 = int(x2)
+   y2 = int(y2)
+
+   x3 = int(x3)
+   y3 = int(y3)
+   x4 = int(x4)
+   y4 = int(y4)
+
+   x5 = int(x5)
+   y5 = int(y5)
+   x6 = int(x6)
+   y6 = int(y6)
+
+   x7 = int(x7)
+   y7 = int(y7)
+   x8 = int(x8)
+   y8 = int(y8)
+
+   x9 = int(x9)
+   y9 = int(y9)
 
 mark()
