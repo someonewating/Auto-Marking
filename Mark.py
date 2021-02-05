@@ -15,6 +15,8 @@ temp_target = r'e:\\Homework\\Auto-Marking\\Temp'
 target = r'e:\\KSWJJ\\65000001'
 filename = 0
 filename = str(filename)
+user_pos_x = {}
+user_pos_y = {}
 x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11 = 0,0,0,0,0,0,0,0,0,0,0
 y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11 = 0,0,0,0,0,0,0,0,0,0,0
 d = {}
@@ -98,7 +100,7 @@ def ocr(filename):
 def bank1():
    m = PyMouse()
    m.move(x1, y1)        #鼠标移动到 考试题库 的位置
-   sleep(3)       #等待3秒，等待 未来教育 程序启动
+   sleep(3)       #等待3秒，等待 
    m.click(x1, y1)       #在 考试题库 处左键单击
    a = m.position()
    a = str(a)
@@ -178,54 +180,35 @@ def bank_general():
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
 def user_position1():
-   global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11
    m = PyMouse()
    print('点击回车以确认当前鼠标的所在位置的坐标')
-   for i in range(1,8):       #需要7次
+   for i in range(1,12):       #需要7次
       i = str(i)
       _ = input()         # input起到阻塞程序的作用
-      a = m.position()
-      a = str(a)
-      print ('第' + i + '次时在' + a + '处确认了一个坐标')
+      t = m.position()
+      t = tuple(t)
+      user_pos_x[i] = t[0]
+      user_pos_y[i] = t[1]
+      t = str(t)
+      print ('第' + i + '次时在' + t + '处确认了一个坐标')
       with open('位置信息.txt','a',encoding='utf-8') as f:
-         f.write('第' + i + '次时在' + a + '处确认了一个坐标' + '\n')
-   print('依照‘位置信息.txt’内存储的数据依次输入数据。' +'\n')
-   os.system('pause')
-   x1 = input('输入“考试题库”的x坐标:')
-   y1 = input('输入“考试题库”的y坐标:')
-   x2 = input('输入“真考题库试卷X”的x坐标:')
-   y2 = input('输入“真考题库试卷X”的y坐标:')
-   x3 = input('输入“字处理”的x坐标:')
-   y3 = input('输入“字处理”的y坐标:')
-   x4 = input('输入“考生文件夹”的x坐标:')
-   y4 = input('输入“考生文件夹”的y坐标:')
-   x5 = input('输入“考生文件夹”窗口左上角关闭按钮的x坐标:')
-   y5 = input('输入“考生文件夹”窗口左上角关闭按钮的y坐标:')
-   x6 = input('输入“交卷”的x坐标:')
-   y6 = input('输入“交卷”的y坐标:')
-   x7 = input('输入“确定”的x坐标:')
-   y7 = input('输入“确定”的y坐标:')
-   x10 = input('输入截屏左上角的x坐标:')
-   y10 = input('输入截屏左上角的y坐标:')
-   x11 = input('输入截屏右下角的x坐标:')
-   y11 = input('输入截屏右下角的y坐标:')
-   x8 = input('输入“关闭”按钮的x坐标:')
-   y8 = input('输入“关闭”按钮的y坐标:')
-   x9 = input('输入新的窗口中“关闭”按钮的x坐标:')
-   y9 = input('输入新的窗口中“关闭”按钮的y坐标:')
-   print ('坐标信息捕获成功' )
-   d = {'x1' : x1,'y1' : y1,'x2' : x2,'y2' : y2,'x3' : x3,'y3' : y3,'x4' : x4 ,'y4' : y4,
-   'x5' : x5,'y5' : y5,'x6' : x6,'y6' : y6,'x7' : x7,'y7' : y7,'x8' : x8,'y8' : y8,
-   'x9' : x9,'y9' : y9,'x10' : x10,'y10' : y10,'x11' : x11,'y11' : y11}
+         f.write('第' + i + '次时在' + t + '处确认了一个坐标' + '\n')
+   d = {'x1' : user_pos_x['1'],'y1' : user_pos_y['1'],'x2' : user_pos_x['2'],'y2' : user_pos_y['2'],
+   'x3' : user_pos_x['3'],'y3' : user_pos_y['3'],'x4' : user_pos_x['4'],'y4' : user_pos_y['4'],
+   'x5' : user_pos_x['5'],'y5' : user_pos_y['5'],'x6' : user_pos_x['6'],'y6' : user_pos_y['6'],
+   'x7' : user_pos_x['7'],'y7' : user_pos_y['7'],'x8' : user_pos_x['8'],'y8' : user_pos_y['8'],
+   'x9' : user_pos_x['9'],'y9' : user_pos_y['9'],'x10' : user_pos_x['10'],'y10' : user_pos_y['10'],
+   'x11' : user_pos_x['11'],'y11' : user_pos_y['11']}
    with open ('position.json','w+') as f_file:
       json.dump(d,f_file)
-   str2int()
-   return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11,d
+   return d
+
+   
 def judg_status():
    global x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11,d
-   print('是否为第一次运行？‘位置信息.txt’内的位置信息是否正确？' + '\n')
-   print('1.一切正确' + '\n')
-   print('2.仍需检查' + '\n')
+   print('是否为第一次运行？' + '\n')
+   print('1.是' + '\n')
+   print('2.否' + '\n')
    print('请选择(输入‘1’或‘2’)：')
    t = input()
    t = int(t)
