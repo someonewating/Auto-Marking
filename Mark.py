@@ -33,6 +33,10 @@ def copy_temp(path,temp_target):
    for filename in path_list:       #循环：按filename对path_list中所有文件进行遍历
       program()
       bank1()
+      try:
+         bank2()
+      except Exception:
+         print('bank2发生了错误.')
       if os.path.exists(temp_target):        #如果temp_target存在
          shutil.rmtree(temp_target)       #删除
       print(os.path.join(path,filename))
@@ -105,12 +109,15 @@ def bank1():
    a = m.position()
    a = str(a)
    print ('在“考试题库”处单击一次，坐标:'+a)
+
+def bank2():
+   m = PyMouse()
    m.move(x2, y2)        #鼠标移动到 真考题库试卷1 的位置
    sleep(0.5)
    m.click(x2, y2)       #在 真考题库试卷1 处左键单击
    a = m.position()
    a = str(a)
-   print ('在“真考题库试卷1”处单击一次，坐标:'+a)
+   print ('在“真考题库试卷X”处单击一次，坐标:'+a)
    m.move(x3, y3)
    sleep(2)
    m.click(x3, y3)
@@ -180,19 +187,23 @@ def bank_general():
    print ('在退出程序处的‘叉号’处单击一次，坐标:'+a)        #退出程序，等待下一轮循环
 
 def user_position1():
+   des_val = {'1' : '考试题库','2' : '真考题库试卷X','3' : '字处理',
+   '4' : '考生文件夹','5' : '叉号','6' : '交卷',
+   '7' : '确定','8' : '分数区域左上角','9' : '分数区域右下角',
+   '10' : '当前窗口关闭按钮','11' : '新窗口关闭按钮'}
    m = PyMouse()
-   print('点击回车以确认当前鼠标的所在位置的坐标')
    for i in range(1,12):       #需要7次
       i = str(i)
+      print('点击回车以确认 ' + des_val[i] + ' 的坐标')
       _ = input()         # input起到阻塞程序的作用
       t = m.position()
       t = tuple(t)
       user_pos_x[i] = t[0]
       user_pos_y[i] = t[1]
       t = str(t)
-      print ('第' + i + '次时在' + t + '处确认了一个坐标')
+      print (des_val[i] + ' 的坐标是:' + t + '\n')
       with open('位置信息.txt','a',encoding='utf-8') as f:
-         f.write('第' + i + '次时在' + t + '处确认了一个坐标' + '\n')
+         f.write('第' + i + '次时在' + des_val[i] + '处确认了一个坐标' + '\n')
    d = {'x1' : user_pos_x['1'],'y1' : user_pos_y['1'],'x2' : user_pos_x['2'],'y2' : user_pos_y['2'],
    'x3' : user_pos_x['3'],'y3' : user_pos_y['3'],'x4' : user_pos_x['4'],'y4' : user_pos_y['4'],
    'x5' : user_pos_x['5'],'y5' : user_pos_y['5'],'x6' : user_pos_x['6'],'y6' : user_pos_y['6'],
@@ -201,6 +212,7 @@ def user_position1():
    'x11' : user_pos_x['11'],'y11' : user_pos_y['11']}
    with open ('position.json','w+') as f_file:
       json.dump(d,f_file)
+   bank_id()
    return d
 
    
@@ -212,13 +224,12 @@ def judg_status():
    print('请选择(输入‘1’或‘2’)：')
    t = input()
    t = int(t)
-   if t == 1:
+   if t == 2:
       with open ('position.json','r') as f_file:
          d = json.load(f_file)
       d = str(d)
       print (d)
       d = eval(d)
-      os.system('pause')
       x1 = d['x1']
       y1 = d['y1']
       x2 = d['x2']
@@ -248,7 +259,7 @@ def judg_status():
       y11 = d['y11']
       str2int()
       return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11
-   elif t == 2:
+   elif t == 1:
       program()
       user_position1()
 
@@ -282,5 +293,47 @@ def str2int():
    x11 = int(x11)
    y11 = int(y11)
    return x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10,x11,y11
+
+def bank_id():
+   print('所选题库位于第一页、第二页还是第三页？')
+   print('1.第一页')
+   print('2.第二页')
+   print('3.第三页')
+   print('请选择(输入‘1’或‘2’或‘3’)：')
+   t = input()
+   if int(t) == 1:
+      bank2()
+   elif int(t) == 2:
+      print('在右侧滚动条底部回车以确认坐标')
+      m = PyMouse()
+      _ = input()         # input起到阻塞程序的作用
+      t = m.position()
+      t = tuple(t)
+      x12 = t[0]
+      y12 = t[1]
+      d2 = {'x12' : x12,'y12' : y12}
+      with open ('position_2.json','w+') as f_file:
+         json.dump(d2,f_file)
+      m.move(x12, y12)
+      sleep(0.5)
+      m.click(x12, y12)
+      bank2()
+   elif int(t) == 3:
+      print('在右侧滚动条底部回车以确认坐标')
+      m = PyMouse()
+      _ = input()         # input起到阻塞程序的作用
+      t = m.position()
+      t = tuple(t)
+      x12 = t[0]
+      y12 = t[1]
+      d2 = {'x12' : x12,'y12' : y12}
+      with open ('position_2.json','w+') as f_file:
+         json.dump(d2,f_file)
+      m.move(x12, y12)
+      sleep(0.5)
+      m.click(x12, y12)
+      sleep(0.5)
+      m.click(x12, y12)
+      bank2()
 
 mark()
